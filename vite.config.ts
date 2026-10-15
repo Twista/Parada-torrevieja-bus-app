@@ -13,7 +13,7 @@ function commit(): string {
   }
 }
 
-const buildDate = new Intl.DateTimeFormat('cs-CZ', { timeZone: 'Europe/Madrid', day: 'numeric', month: 'numeric', year: 'numeric' }).format(new Date())
+const buildDate = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Madrid' }).format(new Date())
 
 export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(`${commit()} · ${buildDate}`) },

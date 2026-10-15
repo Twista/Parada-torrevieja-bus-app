@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Schedule, Variant } from '../../shared/types'
+import { messages } from '../i18n'
 import { variantLabel, variantRuns } from './variants'
 
 const stop = (id: string, name = `Stop ${id}`) => ({ id, name, lat: 0, lng: 0 })
@@ -12,15 +13,21 @@ const schedule = (stops: Schedule['stops']): Schedule => ({ lineId: '071', dir: 
 
 describe('variantLabel', () => {
   it('names a loop by its stop count', () => {
-    expect(variantLabel(loop, all)).toBe('Okruh · 4 zastávky')
+    expect(variantLabel(loop, all, messages.cs)).toBe('Okruh · 4 zastávky')
   })
 
   it('mentions the one or two stops only this variant serves', () => {
-    expect(variantLabel(market, all)).toBe('Okruh · 5 zastávek · přes Mercadillo')
+    expect(variantLabel(market, all, messages.cs)).toBe('Okruh · 5 zastávek · přes Mercadillo')
   })
 
   it('names a one-way variant by its ends and skips long lists of unique stops', () => {
-    expect(variantLabel(station, all)).toBe('Estación → Gregorio · 6 zastávek')
+    expect(variantLabel(station, all, messages.cs)).toBe('Estación → Gregorio · 6 zastávek')
+  })
+})
+
+describe('variantLabel in English', () => {
+  it('translates loop and via', () => {
+    expect(variantLabel(market, all, messages.en)).toBe('Loop · 5 stops · via Mercadillo')
   })
 })
 

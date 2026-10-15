@@ -30,8 +30,10 @@ export function addDays(yyyymmdd: string, days: number): string {
   return d.toISOString().slice(0, 10).replaceAll('-', '')
 }
 
-export function formatDate(yyyymmdd: string): string {
-  return `${+yyyymmdd.slice(6, 8)}. ${+yyyymmdd.slice(4, 6)}.`
+export function formatDate(yyyymmdd: string, lang: 'cs' | 'en'): string {
+  if (lang === 'cs') return `${+yyyymmdd.slice(6, 8)}. ${+yyyymmdd.slice(4, 6)}.`
+  const date = new Date(Date.UTC(+yyyymmdd.slice(0, 4), +yyyymmdd.slice(4, 6) - 1, +yyyymmdd.slice(6, 8)))
+  return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' })
 }
 
 export function toIsoDate(yyyymmdd: string): string {

@@ -1,4 +1,5 @@
 import { api } from '../api'
+import { useI18n } from '../i18n'
 import { LineBadge } from '../components/LineBadge'
 import { InstallGuide } from '../components/InstallGuide'
 import { Nearby } from '../components/Nearby'
@@ -6,12 +7,13 @@ import { Status } from '../components/Status'
 import { useAsync } from '../lib/useAsync'
 
 export function Home() {
+  const { t } = useI18n()
   const lines = useAsync(api.lines, [])
   return (
     <main>
       <header class="bar">
         <h1>
-          Parada <span class="subtitle">autobusy Torrevieja</span>
+          Parada <span class="subtitle">{t.subtitle}</span>
         </h1>
       </header>
       <Nearby />
@@ -20,7 +22,7 @@ export function Home() {
           <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z" />
           <path d="M9 4v14M15 6v14" />
         </svg>
-        Mapa zastávek
+        {t.stopsMap}
       </a>
       <Status loading={lines.loading} error={lines.error} stale={lines.data?.stale} fetchedAt={lines.data?.fetchedAt} />
       <ul class="lines">
@@ -35,7 +37,7 @@ export function Home() {
       </ul>
       <InstallGuide />
       <footer class="footer muted">
-        verze {__APP_VERSION__} · <a href="https://twista.cz">twista.cz</a>
+        {t.version} {__APP_VERSION__} · <a href="https://twista.cz">twista.cz</a>
       </footer>
     </main>
   )

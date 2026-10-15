@@ -1,4 +1,5 @@
 import { api } from '../api'
+import { useI18n } from '../i18n'
 import { departuresAt } from '../lib/departures'
 import { nearest } from '../lib/geo'
 import { useAsync } from '../lib/useAsync'
@@ -9,6 +10,7 @@ import { DepartureList } from './DepartureList'
 const MAX_DISTANCE_M = 1000
 
 export function Nearby() {
+  const { t } = useI18n()
   const { position } = useGeolocation(true)
   const stops = useAsync(api.stops, [])
   const lines = useAsync(api.lines, [])
@@ -22,13 +24,13 @@ export function Nearby() {
   if (!close.length) return null
   return (
     <section class="card">
-      <h2>Poblíž</h2>
+      <h2>{t.nearby}</h2>
       {close.map((s) => (
         <div key={s.id}>
           <a href={`/zastavka/${s.id}`} class="stop-link">
             {s.name} <span class="muted">{Math.round(s.distance)} m</span>
           </a>
-          {list(s.id) ? <DepartureList departures={list(s.id)!.slice(0, 3)} lines={lines.data?.data ?? []} /> : <p class="muted">Načítám…</p>}
+          {list(s.id) ? <DepartureList departures={list(s.id)!.slice(0, 3)} lines={lines.data?.data ?? []} /> : <p class="muted">{t.loading}</p>}
         </div>
       ))}
     </section>

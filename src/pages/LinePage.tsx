@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { useRoute } from 'preact-iso'
 import type { Dir } from '../../shared/types'
 import { api, findNextServiceDate } from '../api'
+import { useI18n } from '../i18n'
 import { LineBadge } from '../components/LineBadge'
 import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
@@ -14,6 +15,7 @@ import { useNow } from '../lib/useNow'
 import { variantLabel, variantRuns } from '../lib/variants'
 
 export function LinePage() {
+  const { t, lang } = useI18n()
   const { params } = useRoute()
   const lineId = params.id
   const clock = useNow()
@@ -83,18 +85,18 @@ export function LinePage() {
       <header class="bar">
         <a href="/" class="back">‹</a>
         {line && <LineBadge line={line} />}
-        <h1>{line?.name ?? `Linka ${lineId}`}</h1>
+        <h1>{line?.name ?? t.line(lineId)}</h1>
       </header>
       <Status loading={directions.loading} error={directions.error} stale={both?.[0].stale} fetchedAt={both?.[0].fetchedAt} />
       {hasReturn && (
         <div class="tabs">
-          <button class={dir === 'I' ? 'active' : ''} onClick={() => switchDir('I')}>Tam</button>
-          <button class={dir === 'V' ? 'active' : ''} onClick={() => switchDir('V')}>Zpět</button>
+          <button class={dir === 'I' ? 'active' : ''} onClick={() => switchDir('I')}>{t.outbound}</button>
+          <button class={dir === 'V' ? 'active' : ''} onClick={() => switchDir('V')}>{t.inbound}</button>
         </div>
       )}
       {variants.length > 1 && (
         <label class="field">
-          <span class="muted">Varianta trasy</span>
+          <span class="muted">{t.routeVariant}</span>
           <select
             value={variantIndex}
             onChange={(e) => {
@@ -104,8 +106,8 @@ export function LinePage() {
           >
             {variants.map((v, i) => (
               <option key={v.id} value={i}>
-                {variantLabel(v, variants)}
-                {runs[i] ? '' : ' (tento den nejede)'}
+                {variantLabel(v, variants, t)}
+                {runs[i] ? '' : t.notRunning}
               </option>
             ))}
           </select>
@@ -113,8 +115,8 @@ export function LinePage() {
       )}
       {variant && (
         <>
-          <p class="muted">Směr: {variant.stops[variant.stops.length - 1]?.name}</p>
-          <a class="button primary" href={`/linka/${lineId}/${dir}/jedu?v=${variant.id}`}>Jedu</a>
+          <p class="muted">{t.towards(variant.stops[variant.stops.length - 1]?.name ?? '')}</p>
+          <a class="button primary" href={`/linka/${lineId}/${dir}/jedu?v=${variant.id}`}>{t.ride}</a>
           <div id="map">
             <MapView
               shape={direction!.shape}
@@ -129,16 +131,16 @@ export function LinePage() {
           </div>
           <section id="departures">
             <div class="row">
-              <h2>Odjezdy {date === today ? 'dnes' : formatDate(date)}</h2>
+              <h2>{t.departures} {date === today ? t.today : formatDate(date, lang)}</h2>
               <input type="date" value={toIsoDate(date)} onChange={(e) => e.currentTarget.value && setDate(fromIsoDate(e.currentTarget.value))} />
             </div>
-            <p class="muted">ze zastávky <strong>{stop?.name}</strong></p>
+            <p class="muted">{t.fromStop} <strong>{stop?.name}</strong></p>
             <Status loading={schedule.loading} error={schedule.error} />
-            {isTerminal && !noService && <p class="notice">Konečná zastávka – odsud linka v tomto směru neodjíždí.</p>}
+            {isTerminal && !noService && <p class="notice">{t.terminalNotice}</p>}
             {noService && (
               <div class="notice">
-                Tento den linka nejezdí.{' '}
-                <button onClick={findNextDay} disabled={searching}>{searching ? 'Hledám…' : 'Najít nejbližší den'}</button>
+                {t.noService}{' '}
+                <button onClick={findNextDay} disabled={searching}>{searching ? t.searching : t.findNextDay}</button>
               </div>
             )}
             <div class="times">
@@ -148,16 +150,16 @@ export function LinePage() {
             </div>
           </section>
           <section>
-            <h2>Zastávky</h2>
+            <h2>{t.stopsHeading}</h2>
             <ol class="stops">
               {variant.stops.map((s, i) => (
                 <li key={`${s.id}-${i}`} class={stopIndex === i ? 'dest' : ''}>
                   <button class="stop-name" onClick={() => setStopIndex(i)}>{s.name}</button>
-                  <button class="small" aria-label="Ukázat na mapě" onClick={() => showOnMap(i)}>📍</button>
+                  <button class="small" aria-label={t.showOnMap} onClick={() => showOnMap(i)}>📍</button>
                   {stopIndex === i && (
                     <div class="stop-times">
                       {i === variant.stops.length - 1 && i > 0 ? (
-                        <span class="muted">Konečná zastávka</span>
+                        <span class="muted">{t.terminal}</span>
                       ) : nextTimes(i).length ? (
                         <div class="times">
                           {nextTimes(i).map((t) => (
@@ -165,9 +167,9 @@ export function LinePage() {
                           ))}
                         </div>
                       ) : (
-                        <span class="muted">Dnes už odsud nic nejede.</span>
+                        <span class="muted">{t.nothingToday}</span>
                       )}
-                      <a href={`/zastavka/${s.id}`}>Všechny linky na zastávce ›</a>
+                      <a href={`/zastavka/${s.id}`}>{t.allLinesAtStop}</a>
                     </div>
                   )}
                 </li>

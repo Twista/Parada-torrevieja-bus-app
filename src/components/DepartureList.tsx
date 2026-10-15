@@ -1,10 +1,12 @@
 import type { Line } from '../../shared/types'
+import { useI18n } from '../i18n'
 import type { Departure } from '../lib/departures'
 import { formatMinutes } from '../lib/time'
 import { LineBadge } from './LineBadge'
 
 export function DepartureList({ departures, lines }: { departures: Departure[]; lines: Line[] }) {
-  if (!departures.length) return <p class="muted">Dnes už odtud nic nejede.</p>
+  const { t } = useI18n()
+  if (!departures.length) return <p class="muted">{t.nothingToday}</p>
   return (
     <ul class="departures">
       {departures.map((d) => {

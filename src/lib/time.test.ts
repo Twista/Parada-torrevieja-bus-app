@@ -32,7 +32,8 @@ describe('dates', () => {
   })
 
   it('formats for display', () => {
-    expect(formatDate('20261005')).toBe('5. 10.')
+    expect(formatDate('20261005', 'cs')).toBe('5. 10.')
+    expect(formatDate('20261005', 'en')).toBe('5 Oct')
   })
 
   it('converts to and from ISO', () => {

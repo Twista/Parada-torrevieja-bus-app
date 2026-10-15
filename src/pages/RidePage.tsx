@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 import { useRoute } from 'preact-iso'
 import type { Dir } from '../../shared/types'
 import { api } from '../api'
+import { useI18n } from '../i18n'
 import { LineBadge } from '../components/LineBadge'
 import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
 import { locateOnStops } from '../lib/geo'
-import { minutesBetween, shouldAlert, stopsLeft, stopsWord } from '../lib/ride'
+import { minutesBetween, shouldAlert, stopsLeft } from '../lib/ride'
 import { currentTripAnchor, tripFrom } from '../lib/schedule'
 import { formatMinutes, madridNow } from '../lib/time'
 import { lineColor } from '../lib/lineColor'
@@ -17,18 +18,20 @@ import { useWakeLock } from '../lib/useWakeLock'
 const OFF_ROUTE_M = 300
 
 function RideBanner({ left, minutes, dest }: { left: number | null; minutes: number | null; dest: string | null }) {
+  const { t } = useI18n()
   if (dest === null || left === null) return null
-  if (left < 1) return <div class="banner alert">Cíl {dest} už je za tebou.</div>
-  if (shouldAlert(left)) return <div class="banner alert">Vystupuj na příští zastávce: {dest}</div>
+  if (left < 1) return <div class="banner alert">{t.destPassed(dest)}</div>
+  if (shouldAlert(left)) return <div class="banner alert">{t.getOffNext(dest)}</div>
   return (
     <div class="banner">
-      Do cíle {dest}: {left} {stopsWord(left)}
+      {t.toDest(dest, t.stops(left))}
       {minutes !== null ? `, ~${minutes} min` : ''}
     </div>
   )
 }
 
 export function RidePage() {
+  const { t } = useI18n()
   const { params, query } = useRoute()
   const lineId = params.id
   const dir = params.dir as Dir
@@ -77,7 +80,7 @@ export function RidePage() {
     return (
       <main>
         <Status loading={direction.loading} error={direction.error ?? (direction.data ? 'empty' : undefined)} />
-        <a href={`/linka/${lineId}`}>Zpět na linku</a>
+        <a href={`/linka/${lineId}`}>{t.backToLine}</a>
       </main>
     )
   }
@@ -87,13 +90,13 @@ export function RidePage() {
       <header class="bar">
         <a href={`/linka/${lineId}`} class="back">‹</a>
         {line && <LineBadge line={line} />}
-        <h1>Směr {variant.stops[variant.stops.length - 1]?.name}</h1>
+        <h1>{t.towards(variant.stops[variant.stops.length - 1]?.name ?? '')}</h1>
       </header>
       <RideBanner left={left} minutes={minutes} dest={destIndex >= 0 ? variant.stops[destIndex].name : null} />
-      {gpsError && manualSegment === null && <p class="notice">GPS není dostupná – u zastávky, kde jsi, ťukni na „Jsem tady“.</p>}
-      {offRoute && located && <p class="notice">Jsi mimo trasu linky (~{Math.round(located.distance)} m).</p>}
+      {gpsError && manualSegment === null && <p class="notice">{t.noGps}</p>}
+      {offRoute && located && <p class="notice">{t.offRoute(Math.round(located.distance))}</p>}
       {manualSegment !== null && (
-        <button class="small" onClick={() => setManualSegment(null)}>Použít GPS</button>
+        <button class="small" onClick={() => setManualSegment(null)}>{t.useGps}</button>
       )}
       <MapView
         shape={direction.data!.data.shape}
@@ -105,7 +108,7 @@ export function RidePage() {
         onStopClick={setDestId}
         stopPopup={(id) => variant.stops.find((s) => s.id === id)?.name ?? ''}
       />
-      <p class="muted">Ťukni na zastávku, kde chceš vystoupit.</p>
+      <p class="muted">{t.tapDestination}</p>
       <ol class="stops">
         {variant.stops.map((s, i) => (
           <li key={`${s.id}-${i}`} class={[segment !== null && i <= segment ? 'past' : '', i === destIndex ? 'dest' : ''].join(' ')}>
@@ -118,7 +121,7 @@ export function RidePage() {
                 setManualSegment(i)
               }}
             >
-              Jsem tady
+              {t.imHere}
             </button>
           </li>
         ))}

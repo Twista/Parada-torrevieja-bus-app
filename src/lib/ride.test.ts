@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { minutesBetween, shouldAlert, stopsLeft, stopsWord } from './ride'
+import { minutesBetween, shouldAlert, stopsLeft } from './ride'
 
 describe('ride', () => {
   it('counts stops left to destination', () => {
@@ -15,11 +15,5 @@ describe('ride', () => {
   it('computes minutes between trip stops', () => {
     expect(minutesBetween([440, 442, 450], 0, 2)).toBe(10)
     expect(minutesBetween([null, 442, null], 1, 2)).toBeNull()
-  })
-
-  it('declines Czech plural', () => {
-    expect(stopsWord(1)).toBe('zastávka')
-    expect(stopsWord(3)).toBe('zastávky')
-    expect(stopsWord(5)).toBe('zastávek')
   })
 })

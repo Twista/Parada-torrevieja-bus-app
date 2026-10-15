@@ -1,5 +1,5 @@
 import type { Schedule, Variant } from '../../shared/types'
-import { stopsWord } from './ride'
+import type { Messages } from '../i18n'
 import { stopTimes } from './schedule'
 
 function uniqueStopIndexes(variant: Variant, all: Variant[]): number[] {
@@ -7,14 +7,14 @@ function uniqueStopIndexes(variant: Variant, all: Variant[]): number[] {
   return variant.stops.flatMap((s, i) => (others.has(s.id) ? [] : [i]))
 }
 
-export function variantLabel(variant: Variant, all: Variant[]): string {
+export function variantLabel(variant: Variant, all: Variant[], t: Messages): string {
   const first = variant.stops[0]
   const last = variant.stops[variant.stops.length - 1]
   const n = variant.stops.length
-  const ends = first?.id === last?.id ? 'Okruh' : `${first?.name} → ${last?.name}`
+  const ends = first?.id === last?.id ? t.loop : `${first?.name} → ${last?.name}`
   const unique = uniqueStopIndexes(variant, all)
-  const via = unique.length > 0 && unique.length <= 2 ? ` · přes ${unique.map((i) => variant.stops[i].name).join(', ')}` : ''
-  return `${ends} · ${n} ${stopsWord(n)}${via}`
+  const via = unique.length > 0 && unique.length <= 2 ? ` · ${t.via} ${unique.map((i) => variant.stops[i].name).join(', ')}` : ''
+  return `${ends} · ${t.stops(n)}${via}`
 }
 
 export function variantRuns(schedule: Schedule, variant: Variant, all: Variant[]): boolean {

@@ -1,4 +1,5 @@
 import { isOutdated } from '../api'
+import { useI18n } from '../i18n'
 
 interface Props {
   loading: boolean
@@ -8,11 +9,12 @@ interface Props {
 }
 
 export function Status({ loading, error, stale, fetchedAt }: Props) {
-  if (error) return <p class="notice">Nejsou data, připoj se k síti.</p>
-  if (loading) return <p class="muted">Načítám…</p>
+  const { t } = useI18n()
+  if (error) return <p class="notice">{t.noData}</p>
+  if (loading) return <p class="muted">{t.loading}</p>
   if (fetchedAt && (!navigator.onLine || isOutdated({ stale: !!stale, fetchedAt }))) {
-    const when = new Date(fetchedAt).toLocaleString('cs-CZ', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
-    return <p class="notice">Offline – data z {when}</p>
+    const when = new Date(fetchedAt).toLocaleString(t.locale, { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' })
+    return <p class="notice">{t.offlineFrom(when)}</p>
   }
   return null
 }

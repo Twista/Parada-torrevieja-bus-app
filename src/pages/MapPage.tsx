@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks'
 import { api } from '../api'
+import { useI18n } from '../i18n'
 import { DepartureList } from '../components/DepartureList'
 import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
@@ -9,6 +10,7 @@ import { useGeolocation } from '../lib/useGeolocation'
 import { useNow } from '../lib/useNow'
 
 export function MapPage() {
+  const { t } = useI18n()
   const stops = useAsync(api.stops, [])
   const lines = useAsync(api.lines, [])
   const { position } = useGeolocation(true)
@@ -21,7 +23,7 @@ export function MapPage() {
     <main class="map-page">
       <header class="bar">
         <a href="/" class="back">‹</a>
-        <h1>Mapa zastávek</h1>
+        <h1>{t.stopsMap}</h1>
       </header>
       <Status loading={stops.loading} error={stops.error} stale={stops.data?.stale} fetchedAt={stops.data?.fetchedAt} />
       {stops.data && (
@@ -35,7 +37,7 @@ export function MapPage() {
           stopPopup={(id) => stops.data?.data.find((s) => s.id === id)?.name ?? ''}
         />
       )}
-      {!stop && <p class="muted">Ťukni na zastávku na mapě.</p>}
+      {!stop && <p class="muted">{t.tapStopOnMap}</p>}
       {stop && (
         <section>
           <a href={`/zastavka/${stop.id}`} class="stop-link">{stop.name} ›</a>
