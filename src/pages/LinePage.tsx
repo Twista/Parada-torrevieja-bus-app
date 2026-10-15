@@ -9,12 +9,14 @@ import { stopTimes, upcoming } from '../lib/schedule'
 import { addDays, formatDate, formatMinutes, fromIsoDate, toIsoDate } from '../lib/time'
 import { lineColor } from '../lib/lineColor'
 import { useAsync } from '../lib/useAsync'
+import { useGeolocation } from '../lib/useGeolocation'
 import { useNow } from '../lib/useNow'
 
 export function LinePage() {
   const { params } = useRoute()
   const lineId = params.id
   const clock = useNow()
+  const { position } = useGeolocation(true)
   const today = clock.date
   const [dir, setDir] = useState<Dir>('I')
   const [variantIndex, setVariantIndex] = useState(0)
@@ -108,6 +110,7 @@ export function LinePage() {
               shape={direction!.shape}
               stops={variant.stops}
               color={lineColor(line)}
+              user={position}
               highlightStopId={stop?.id}
               onStopClick={(id) => setStopIndex(Math.max(0, variant.stops.findIndex((s) => s.id === id)))}
               stopPopup={popupText}
