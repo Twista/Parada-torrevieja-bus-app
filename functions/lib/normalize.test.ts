@@ -35,6 +35,11 @@ describe('parseLineDirection', () => {
     expect(d).toEqual({ lineId: '071', dir: 'V', variants: [], shape: [] })
   })
 
+  it('throws on an upstream error instead of returning an empty line', () => {
+    expect(() => parseLineDirection('081', 'I', { error: 'Error de conexión con el API' }, {})).toThrow('Error de conexión')
+    expect(() => parseLineDirection('081', 'I', { trayectos: [] }, { error: 'Error de conexión con el API' })).toThrow('Error de conexión')
+  })
+
   it('drops empty shape segments', () => {
     const detail: RawLineDetail = { geojson: { features: [{ geometry: { type: 'MultiLineString', coordinates: [] } }] } }
     expect(parseLineDirection('01', 'I', { trayectos: [] }, detail).shape).toEqual([])

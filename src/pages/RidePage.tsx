@@ -16,7 +16,8 @@ import { useWakeLock } from '../lib/useWakeLock'
 const OFF_ROUTE_M = 300
 
 function RideBanner({ left, minutes, dest }: { left: number | null; minutes: number | null; dest: string | null }) {
-  if (dest === null || left === null || left < 1) return null
+  if (dest === null || left === null) return null
+  if (left < 1) return <div class="banner alert">Cíl {dest} už je za tebou.</div>
   if (shouldAlert(left)) return <div class="banner alert">Vystupuj na příští zastávce: {dest}</div>
   return (
     <div class="banner">
@@ -46,7 +47,8 @@ export function RidePage() {
   const located = variant && position ? locateOnStops(variant.stops, position, Math.max(0, lastSegment.current - 1)) : null
   const offRoute = manualSegment === null && located !== null && located.distance > OFF_ROUTE_M
   const segment = manualSegment ?? (located && !offRoute ? located.segment : null)
-  const destIndex = variant && destId ? variant.stops.findIndex((s, i) => s.id === destId && (segment === null || i > segment)) : -1
+  const destMatches = variant && destId ? variant.stops.flatMap((s, i) => (s.id === destId ? [i] : [])) : []
+  const destIndex = destMatches.find((i) => segment === null || i > segment) ?? destMatches[destMatches.length - 1] ?? -1
   const sched = schedule.data?.data
   const anchor = sched && variant && segment !== null ? currentTripAnchor(sched, variant, segment, madridNow().minutes) : null
   const trip = sched && variant && segment !== null && anchor !== null ? tripFrom(sched, variant, segment, anchor) : []
@@ -54,8 +56,8 @@ export function RidePage() {
   const minutes = segment !== null && destIndex >= 0 ? minutesBetween(trip, segment, destIndex) : null
 
   useEffect(() => {
-    if (located && !offRoute) lastSegment.current = located.segment
-  }, [located?.segment, offRoute])
+    if (manualSegment === null && located && !offRoute) lastSegment.current = located.segment
+  }, [located?.segment, offRoute, manualSegment])
 
   useEffect(() => {
     alerted.current = false
@@ -107,7 +109,15 @@ export function RidePage() {
           <li key={`${s.id}-${i}`} class={[segment !== null && i <= segment ? 'past' : '', i === destIndex ? 'dest' : ''].join(' ')}>
             <button class="stop-name" onClick={() => setDestId(s.id)}>{s.name}</button>
             <span class="time">{trip[i] != null ? formatMinutes(trip[i]!) : ''}</span>
-            <button class="small" onClick={() => setManualSegment(i)}>Jsem tady</button>
+            <button
+              class="small"
+              onClick={() => {
+                lastSegment.current = i
+                setManualSegment(i)
+              }}
+            >
+              Jsem tady
+            </button>
           </li>
         ))}
       </ol>

@@ -39,13 +39,18 @@ function projectOnSegment(p: LatLng, a: LatLng, b: LatLng): { t: number; distanc
   return { t, distance: distanceM(p, { lat: a.lat + t * dy, lng: (ax + t * dx) / k }) }
 }
 
-export function locateOnStops(stops: LatLng[], p: LatLng, minSegment = 0): RoutePosition | null {
-  let best: RoutePosition | null = null
-  for (let i = Math.max(0, minSegment); i < stops.length - 1; i++) {
+const TIE_M = 25
+
+export function locateOnStops(stops: LatLng[], p: LatLng, preferFrom = 0): RoutePosition | null {
+  const candidates: RoutePosition[] = []
+  for (let i = 0; i < stops.length - 1; i++) {
     const { t, distance } = projectOnSegment(p, stops[i], stops[i + 1])
-    if (!best || distance < best.distance) best = { segment: i, fraction: t, distance }
+    candidates.push({ segment: i, fraction: t, distance })
   }
-  return best
+  if (!candidates.length) return null
+  const min = Math.min(...candidates.map((c) => c.distance))
+  const near = candidates.filter((c) => c.distance <= min + TIE_M)
+  return near.find((c) => c.segment >= preferFrom) ?? near[0]
 }
 
 export function nearest<T extends LatLng>(items: T[], p: LatLng, count: number): (T & { distance: number })[] {

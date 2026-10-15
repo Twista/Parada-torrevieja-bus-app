@@ -25,6 +25,14 @@ describe('locateOnStops', () => {
     expect(locateOnStops([A, B, C, A], { lat: 37.9601, lng: -0.6999 }, 2)!.segment).toBe(2)
   })
 
+  it('prefers the start of a circular route at the shared stop', () => {
+    expect(locateOnStops([A, B, C, A], { lat: 37.9601, lng: -0.7 })!.segment).toBe(0)
+  })
+
+  it('recovers from an earlier bad fix further along the route', () => {
+    expect(locateOnStops([A, B, C], { lat: 37.9601, lng: -0.695 }, 1)!.segment).toBe(0)
+  })
+
   it('returns null for fewer than two stops', () => {
     expect(locateOnStops([A], A)).toBeNull()
   })

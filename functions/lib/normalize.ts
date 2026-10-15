@@ -1,6 +1,7 @@
 import type { Dir, Line, LineDirection, Schedule, StopIndexEntry, StopTime } from '../../shared/types'
 
 export interface RawTrayectos {
+  error?: unknown
   trayectos?: {
     codtray: string
     nomtray: string
@@ -9,6 +10,7 @@ export interface RawTrayectos {
 }
 
 export interface RawLineDetail {
+  error?: unknown
   geojson?: { features?: { geometry?: { type: string; coordinates: unknown } }[] }
 }
 
@@ -38,6 +40,7 @@ export function parseLines(html: string): Line[] {
 }
 
 export function parseLineDirection(lineId: string, dir: Dir, trayectos: RawTrayectos, detail: RawLineDetail): LineDirection {
+  for (const raw of [trayectos, detail]) if (typeof raw.error === 'string') throw new Error(raw.error)
   const variants = (trayectos.trayectos ?? []).map((t) => ({
     id: t.codtray,
     name: t.nomtray,

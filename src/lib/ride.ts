@@ -3,7 +3,7 @@ export function stopsLeft(segment: number, destIndex: number): number {
 }
 
 export function shouldAlert(left: number): boolean {
-  return left === 1
+  return left <= 1
 }
 
 export function minutesBetween(trip: (number | null)[], from: number, to: number): number | null {

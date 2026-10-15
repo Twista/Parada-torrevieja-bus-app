@@ -6,10 +6,10 @@ describe('ride', () => {
     expect(stopsLeft(2, 6)).toBe(4)
   })
 
-  it('alerts when the next stop is the destination', () => {
+  it('alerts when the next stop is the destination or it was skipped', () => {
     expect(shouldAlert(2)).toBe(false)
     expect(shouldAlert(1)).toBe(true)
-    expect(shouldAlert(0)).toBe(false)
+    expect(shouldAlert(0)).toBe(true)
   })
 
   it('computes minutes between trip stops', () => {
