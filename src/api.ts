@@ -7,6 +7,12 @@ export interface Loaded<T> {
   fetchedAt: number
 }
 
+const FRESH_MS = 26 * 3600_000
+
+export function isOutdated(loaded: Pick<Loaded<unknown>, 'stale' | 'fetchedAt'>, now = Date.now()): boolean {
+  return loaded.stale || now - loaded.fetchedAt > FRESH_MS
+}
+
 async function get<T>(path: string): Promise<Loaded<T>> {
   const res = await fetch(path)
   if (!res.ok) throw new Error(`HTTP ${res.status}`)

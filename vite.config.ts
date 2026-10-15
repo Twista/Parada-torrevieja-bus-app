@@ -29,8 +29,8 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'api', expiration: { maxEntries: 300, maxAgeSeconds: 14 * 86400 } },
+            handler: 'NetworkFirst',
+            options: { cacheName: 'api', networkTimeoutSeconds: 4, expiration: { maxEntries: 300, maxAgeSeconds: 14 * 86400 } },
           },
           {
             urlPattern: ({ url }) => url.hostname === 'tiles.openfreemap.org',
