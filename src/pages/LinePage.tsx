@@ -3,6 +3,7 @@ import { useRoute } from 'preact-iso'
 import type { Dir } from '../../shared/types'
 import { api, findNextServiceDate } from '../api'
 import { LineBadge } from '../components/LineBadge'
+import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
 import { stopTimes, upcoming } from '../lib/schedule'
 import { addDays, formatDate, formatMinutes, fromIsoDate, madridNow, toIsoDate } from '../lib/time'
@@ -75,6 +76,13 @@ export function LinePage() {
         <>
           <p class="muted">Směr: {variant.stops[variant.stops.length - 1]?.name}</p>
           <a class="button primary" href={`/linka/${lineId}/${dir}/jedu?v=${variant.id}`}>Jedu</a>
+          <MapView
+            shape={direction!.shape}
+            stops={variant.stops}
+            color={line?.color ?? '#c8102e'}
+            highlightStopId={openStop !== null ? variant.stops[openStop]?.id : null}
+            onStopClick={(id) => setOpenStop(variant.stops.findIndex((s) => s.id === id))}
+          />
           <section>
             <div class="row">
               <h2>Odjezdy {date === today ? 'dnes' : formatDate(date)}</h2>
