@@ -9,6 +9,7 @@ import { locateOnStops } from '../lib/geo'
 import { minutesBetween, shouldAlert, stopsLeft, stopsWord } from '../lib/ride'
 import { currentTripAnchor, tripFrom } from '../lib/schedule'
 import { formatMinutes, madridNow } from '../lib/time'
+import { lineColor } from '../lib/lineColor'
 import { useAsync } from '../lib/useAsync'
 import { useGeolocation } from '../lib/useGeolocation'
 import { useWakeLock } from '../lib/useWakeLock'
@@ -97,7 +98,7 @@ export function RidePage() {
       <MapView
         shape={direction.data!.data.shape}
         stops={variant.stops}
-        color={line?.color ?? '#c8102e'}
+        color={lineColor(line)}
         user={position}
         highlightStopId={destId}
         follow

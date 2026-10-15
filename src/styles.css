@@ -302,3 +302,19 @@ select {
 #departures {
   scroll-margin-top: 72px;
 }
+
+.button.secondary {
+  margin: 12px 0;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+
+.map-page .map {
+  height: 62vh;
+}
+
+.footer {
+  padding: 24px 0 8px;
+  text-align: center;
+  font-size: 0.8rem;
+}

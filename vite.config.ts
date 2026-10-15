@@ -1,8 +1,21 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { execSync } from 'node:child_process'
+
+function commit(): string {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7)
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim()
+  } catch {
+    return 'dev'
+  }
+}
+
+const buildDate = new Intl.DateTimeFormat('cs-CZ', { timeZone: 'Europe/Madrid', day: 'numeric', month: 'numeric', year: 'numeric' }).format(new Date())
 
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(`${commit()} · ${buildDate}`) },
   plugins: [
     preact(),
     VitePWA({

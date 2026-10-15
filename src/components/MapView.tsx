@@ -8,18 +8,21 @@ import type { LatLng } from '../lib/geo'
 setWorkerUrl(workerUrl)
 
 interface Props {
-  shape: [number, number][][]
+  shape?: [number, number][][]
   stops: Stop[]
   color: string
   user?: LatLng | null
   highlightStopId?: string | null
   follow?: boolean
+  centerOnUser?: boolean
   onStopClick?: (stopId: string) => void
   stopPopup?: (stopId: string) => string
   focus?: { stopId: string } | null
 }
 
 type StyleSpecification = Exclude<MapOptions['style'], string | undefined>
+
+const NO_ROUTE: [number, number][][] = []
 
 const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
 const BLANK: StyleSpecification = {
@@ -38,11 +41,10 @@ async function loadStyle(): Promise<StyleSpecification | string> {
   }
 }
 
-function routeData(shape: [number, number][][], stops: Stop[]): GeoJSON.FeatureCollection {
-  const lines = shape.length ? shape : stops.length > 1 ? [stops.map((s) => [s.lng, s.lat])] : []
+function routeData(shape: [number, number][][]): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
-    features: lines.map((coordinates) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } })),
+    features: shape.map((coordinates) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } })),
   }
 }
 
@@ -75,12 +77,13 @@ function source(map: MapLibreMap, id: string): GeoJSONSource | undefined {
   return map.getSource(id) as GeoJSONSource | undefined
 }
 
-export function MapView({ shape, stops, color, user, highlightStopId, follow, onStopClick, stopPopup, focus }: Props) {
+export function MapView({ shape = NO_ROUTE, stops, color, user, highlightStopId, follow, centerOnUser, onStopClick, stopPopup, focus }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const popup = useRef<Popup | null>(null)
-  const latest = useRef({ shape, stops, user, highlightStopId, onStopClick, stopPopup })
-  latest.current = { shape, stops, user, highlightStopId, onStopClick, stopPopup }
+  const centered = useRef(false)
+  const latest = useRef({ shape, stops, user, highlightStopId, onStopClick, stopPopup, centerOnUser })
+  latest.current = { shape, stops, user, highlightStopId, onStopClick, stopPopup, centerOnUser }
 
   function showPopup(map: MapLibreMap, stopId: string) {
     const stop = latest.current.stops.find((s) => s.id === stopId)
@@ -99,7 +102,7 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
       map.on('load', () => {
         if (!map) return
         const p = latest.current
-        map.addSource('route', { type: 'geojson', data: routeData(p.shape, p.stops) })
+        map.addSource('route', { type: 'geojson', data: routeData(p.shape) })
         map.addLayer({ id: 'route', type: 'line', source: 'route', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': color, 'line-width': 5, 'line-opacity': 0.8 } })
         map.addSource('stops', { type: 'geojson', data: stopsData(p.stops, p.highlightStopId) })
         map.addLayer({
@@ -107,7 +110,7 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
           type: 'circle',
           source: 'stops',
           paint: {
-            'circle-radius': ['case', ['get', 'highlight'], 10, 6],
+            'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, ['case', ['get', 'highlight'], 8, 3], 15, ['case', ['get', 'highlight'], 10, 6]],
             'circle-color': ['case', ['get', 'highlight'], color, '#ffffff'],
             'circle-stroke-color': color,
             'circle-stroke-width': 3,
@@ -122,6 +125,10 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
           showPopup(map, String(id))
         })
         fit(map, p.stops)
+        if (p.centerOnUser && p.user) {
+          centered.current = true
+          map.jumpTo({ center: [p.user.lng, p.user.lat], zoom: 15 })
+        }
         mapRef.current = map
       })
     })
@@ -136,7 +143,7 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
     const map = mapRef.current
     if (!map) return
     popup.current?.remove()
-    source(map, 'route')?.setData(routeData(shape, stops))
+    source(map, 'route')?.setData(routeData(shape))
     source(map, 'stops')?.setData(stopsData(stops, latest.current.highlightStopId))
     fit(map, stops)
   }, [shape, stops])
@@ -158,6 +165,10 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
     const map = mapRef.current
     if (!map) return
     source(map, 'user')?.setData(userData(user))
+    if (centerOnUser && user && !centered.current) {
+      centered.current = true
+      map.jumpTo({ center: [user.lng, user.lat], zoom: 15 })
+    }
     if (follow && user) map.easeTo({ center: [user.lng, user.lat], zoom: Math.max(map.getZoom(), 15) })
   }, [user?.lat, user?.lng, follow])
 

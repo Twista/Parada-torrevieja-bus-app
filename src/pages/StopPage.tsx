@@ -1,3 +1,4 @@
+import { useMemo } from 'preact/hooks'
 import { useRoute } from 'preact-iso'
 import { api } from '../api'
 import { DepartureList } from '../components/DepartureList'
@@ -12,6 +13,7 @@ export function StopPage() {
   const stops = useAsync(api.stops, [])
   const lines = useAsync(api.lines, [])
   const stop = stops.data?.data.find((s) => s.id === params.id)
+  const mapStops = useMemo(() => (stop ? [stop] : []), [stop])
   const { date, minutes } = useNow()
   const departures = useAsync(() => (stop ? departuresAt(stop, date, minutes) : Promise.resolve([])), [stop?.id, date, minutes])
 
@@ -25,7 +27,7 @@ export function StopPage() {
       {stops.data && !stop && <p class="notice">Zastávka nenalezena.</p>}
       {stop && (
         <>
-          <MapView shape={[]} stops={[stop]} color="#c8102e" highlightStopId={stop.id} />
+          <MapView stops={mapStops} color="#c8102e" highlightStopId={stop.id} />
           <h2>Nejbližší odjezdy</h2>
           <Status loading={departures.loading} error={departures.error} />
           {departures.data && <DepartureList departures={departures.data.slice(0, 15)} lines={lines.data?.data ?? []} />}

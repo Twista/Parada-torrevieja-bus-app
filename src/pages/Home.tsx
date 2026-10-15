@@ -12,6 +12,7 @@ export function Home() {
         <h1>Torrebus</h1>
       </header>
       <Nearby />
+      <a class="button secondary" href="/mapa">🗺 Mapa zastávek</a>
       <Status loading={lines.loading} error={lines.error} stale={lines.data?.stale} fetchedAt={lines.data?.fetchedAt} />
       <ul class="lines">
         {lines.data?.data.map((l) => (
@@ -23,6 +24,7 @@ export function Home() {
           </li>
         ))}
       </ul>
+      <footer class="footer muted">verze {__APP_VERSION__}</footer>
     </main>
   )
 }

@@ -7,6 +7,7 @@ import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
 import { stopTimes, upcoming } from '../lib/schedule'
 import { addDays, formatDate, formatMinutes, fromIsoDate, toIsoDate } from '../lib/time'
+import { lineColor } from '../lib/lineColor'
 import { useAsync } from '../lib/useAsync'
 import { useNow } from '../lib/useNow'
 
@@ -106,7 +107,7 @@ export function LinePage() {
             <MapView
               shape={direction!.shape}
               stops={variant.stops}
-              color={line?.color ?? '#c8102e'}
+              color={lineColor(line)}
               highlightStopId={stop?.id}
               onStopClick={(id) => setStopIndex(Math.max(0, variant.stops.findIndex((s) => s.id === id)))}
               stopPopup={popupText}
