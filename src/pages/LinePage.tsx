@@ -6,13 +6,15 @@ import { LineBadge } from '../components/LineBadge'
 import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
 import { stopTimes, upcoming } from '../lib/schedule'
-import { addDays, formatDate, formatMinutes, fromIsoDate, madridNow, toIsoDate } from '../lib/time'
+import { addDays, formatDate, formatMinutes, fromIsoDate, toIsoDate } from '../lib/time'
 import { useAsync } from '../lib/useAsync'
+import { useNow } from '../lib/useNow'
 
 export function LinePage() {
   const { params } = useRoute()
   const lineId = params.id
-  const today = madridNow().date
+  const clock = useNow()
+  const today = clock.date
   const [dir, setDir] = useState<Dir>('I')
   const [variantIndex, setVariantIndex] = useState(0)
   const [date, setDate] = useState(today)
@@ -31,7 +33,7 @@ export function LinePage() {
   const hasReturn = (both?.[1].data.variants.length ?? 0) > 0
   const direction = both?.[dir === 'I' ? 0 : 1].data
   const variant = direction?.variants[variantIndex] ?? direction?.variants[0]
-  const now = date === today ? madridNow().minutes : -1
+  const now = date === today ? clock.minutes : -1
   const sched = schedule.data?.data
   const departures = sched && variant ? stopTimes(sched, variant, 0) : []
   const noService = sched !== undefined && Object.keys(sched.stops).length === 0

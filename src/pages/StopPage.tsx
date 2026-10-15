@@ -4,18 +4,16 @@ import { DepartureList } from '../components/DepartureList'
 import { MapView } from '../components/MapView'
 import { Status } from '../components/Status'
 import { departuresAt } from '../lib/departures'
-import { madridNow } from '../lib/time'
 import { useAsync } from '../lib/useAsync'
+import { useNow } from '../lib/useNow'
 
 export function StopPage() {
   const { params } = useRoute()
   const stops = useAsync(api.stops, [])
   const lines = useAsync(api.lines, [])
   const stop = stops.data?.data.find((s) => s.id === params.id)
-  const departures = useAsync(() => {
-    const { date, minutes } = madridNow()
-    return stop ? departuresAt(stop, date, minutes) : Promise.resolve([])
-  }, [stop?.id])
+  const { date, minutes } = useNow()
+  const departures = useAsync(() => (stop ? departuresAt(stop, date, minutes) : Promise.resolve([])), [stop?.id, date, minutes])
 
   return (
     <main>
