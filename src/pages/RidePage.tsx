@@ -102,6 +102,7 @@ export function RidePage() {
         highlightStopId={destId}
         follow
         onStopClick={setDestId}
+        stopPopup={(id) => variant.stops.find((s) => s.id === id)?.name ?? ''}
       />
       <p class="muted">Ťukni na zastávku, kde chceš vystoupit.</p>
       <ol class="stops">

@@ -290,3 +290,14 @@ select {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+
+.maplibregl-popup-content {
+  white-space: pre-line;
+  font: inherit;
+  font-weight: 600;
+}
+
+#map,
+#departures {
+  scroll-margin-top: 72px;
+}

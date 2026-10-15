@@ -18,7 +18,8 @@ export function LinePage() {
   const [dir, setDir] = useState<Dir>('I')
   const [variantIndex, setVariantIndex] = useState(0)
   const [date, setDate] = useState(today)
-  const [openStop, setOpenStop] = useState<number | null>(null)
+  const [stopIndex, setStopIndex] = useState(0)
+  const [focus, setFocus] = useState<{ stopId: string } | null>(null)
   const [searching, setSearching] = useState(false)
   const lines = useAsync(api.lines, [])
   const directions = useAsync(() => Promise.all([api.direction(lineId, 'I'), api.direction(lineId, 'V')]), [lineId])
@@ -35,13 +36,28 @@ export function LinePage() {
   const variant = direction?.variants[variantIndex] ?? direction?.variants[0]
   const now = date === today ? clock.minutes : -1
   const sched = schedule.data?.data
-  const departures = sched && variant ? stopTimes(sched, variant, 0) : []
+  const stop = variant?.stops[stopIndex] ?? variant?.stops[0]
+  const isTerminal = variant !== undefined && stopIndex > 0 && stopIndex === variant.stops.length - 1
+  const departures = sched && variant && stop ? stopTimes(sched, variant, variant.stops.indexOf(stop)) : []
   const noService = sched !== undefined && Object.keys(sched.stops).length === 0
 
   function switchDir(next: Dir) {
     setDir(next)
     setVariantIndex(0)
-    setOpenStop(null)
+    setStopIndex(0)
+  }
+
+  function selectStop(index: number, target: 'map' | 'departures') {
+    setStopIndex(index)
+    if (target === 'map' && variant) setFocus({ stopId: variant.stops[index].id })
+    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function popupText(stopId: string): string {
+    const index = variant ? variant.stops.findIndex((s) => s.id === stopId) : -1
+    if (!variant || index < 0) return ''
+    const next = sched ? upcoming(stopTimes(sched, variant, index), now, 3).map(formatMinutes) : []
+    return next.length ? `${variant.stops[index].name}\n${next.join('  ')}` : variant.stops[index].name
   }
 
   async function findNextDay() {
@@ -70,7 +86,7 @@ export function LinePage() {
           value={variantIndex}
           onChange={(e) => {
             setVariantIndex(Number(e.currentTarget.value))
-            setOpenStop(null)
+            setStopIndex(0)
           }}
         >
           {direction.variants.map((v, i) => (
@@ -82,19 +98,25 @@ export function LinePage() {
         <>
           <p class="muted">Směr: {variant.stops[variant.stops.length - 1]?.name}</p>
           <a class="button primary" href={`/linka/${lineId}/${dir}/jedu?v=${variant.id}`}>Jedu</a>
-          <MapView
-            shape={direction!.shape}
-            stops={variant.stops}
-            color={line?.color ?? '#c8102e'}
-            highlightStopId={openStop !== null ? variant.stops[openStop]?.id : null}
-            onStopClick={(id) => setOpenStop(variant.stops.findIndex((s) => s.id === id))}
-          />
-          <section>
+          <div id="map">
+            <MapView
+              shape={direction!.shape}
+              stops={variant.stops}
+              color={line?.color ?? '#c8102e'}
+              highlightStopId={stop?.id}
+              onStopClick={(id) => setStopIndex(Math.max(0, variant.stops.findIndex((s) => s.id === id)))}
+              stopPopup={popupText}
+              focus={focus}
+            />
+          </div>
+          <section id="departures">
             <div class="row">
               <h2>Odjezdy {date === today ? 'dnes' : formatDate(date)}</h2>
               <input type="date" value={toIsoDate(date)} onChange={(e) => e.currentTarget.value && setDate(fromIsoDate(e.currentTarget.value))} />
             </div>
+            <p class="muted">ze zastávky <strong>{stop?.name}</strong></p>
             <Status loading={schedule.loading} error={schedule.error} />
+            {isTerminal && !noService && <p class="notice">Konečná zastávka – odsud linka v tomto směru neodjíždí.</p>}
             {noService && (
               <div class="notice">
                 Tento den linka nejezdí.{' '}
@@ -111,17 +133,11 @@ export function LinePage() {
             <h2>Zastávky</h2>
             <ol class="stops">
               {variant.stops.map((s, i) => (
-                <li key={`${s.id}-${i}`} class={openStop === i ? 'open' : ''}>
-                  <button class="stop-name" onClick={() => setOpenStop(openStop === i ? null : i)}>{s.name}</button>
-                  {openStop === i && sched && (
-                    <div class="stop-times">
-                      <div class="times">
-                        {upcoming(stopTimes(sched, variant, i), now, 8).map((t) => (
-                          <span key={t}>{formatMinutes(t)}</span>
-                        ))}
-                      </div>
-                      <a href={`/zastavka/${s.id}`}>Všechny linky na zastávce ›</a>
-                    </div>
+                <li key={`${s.id}-${i}`} class={stopIndex === i ? 'dest' : ''}>
+                  <button class="stop-name" onClick={() => selectStop(i, 'departures')}>{s.name}</button>
+                  <button class="small" aria-label="Ukázat na mapě" onClick={() => selectStop(i, 'map')}>📍</button>
+                  {stopIndex === i && (
+                    <a class="stop-times" href={`/zastavka/${s.id}`}>Všechny linky na zastávce ›</a>
                   )}
                 </li>
               ))}

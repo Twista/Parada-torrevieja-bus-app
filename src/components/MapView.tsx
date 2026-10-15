@@ -1,4 +1,4 @@
-import { LngLatBounds, Map as MapLibreMap, setWorkerUrl, type GeoJSONSource, type MapLayerMouseEvent, type MapOptions } from 'maplibre-gl'
+import { LngLatBounds, Map as MapLibreMap, Popup, setWorkerUrl, type GeoJSONSource, type MapLayerMouseEvent, type MapOptions } from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url'
 import { useEffect, useRef } from 'preact/hooks'
@@ -15,6 +15,8 @@ interface Props {
   highlightStopId?: string | null
   follow?: boolean
   onStopClick?: (stopId: string) => void
+  stopPopup?: (stopId: string) => string
+  focus?: { stopId: string } | null
 }
 
 type StyleSpecification = Exclude<MapOptions['style'], string | undefined>
@@ -73,11 +75,20 @@ function source(map: MapLibreMap, id: string): GeoJSONSource | undefined {
   return map.getSource(id) as GeoJSONSource | undefined
 }
 
-export function MapView({ shape, stops, color, user, highlightStopId, follow, onStopClick }: Props) {
+export function MapView({ shape, stops, color, user, highlightStopId, follow, onStopClick, stopPopup, focus }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
-  const latest = useRef({ shape, stops, user, highlightStopId, onStopClick })
-  latest.current = { shape, stops, user, highlightStopId, onStopClick }
+  const popup = useRef<Popup | null>(null)
+  const latest = useRef({ shape, stops, user, highlightStopId, onStopClick, stopPopup })
+  latest.current = { shape, stops, user, highlightStopId, onStopClick, stopPopup }
+
+  function showPopup(map: MapLibreMap, stopId: string) {
+    const stop = latest.current.stops.find((s) => s.id === stopId)
+    const text = latest.current.stopPopup?.(stopId)
+    popup.current?.remove()
+    if (!stop || !text) return
+    popup.current = new Popup({ closeButton: false, offset: 12 }).setLngLat([stop.lng, stop.lat]).setText(text).addTo(map)
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -106,7 +117,9 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
         map.addLayer({ id: 'user', type: 'circle', source: 'user', paint: { 'circle-radius': 8, 'circle-color': '#1e6ff5', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 3 } })
         map.on('click', 'stops', (e: MapLayerMouseEvent) => {
           const id = e.features?.[0]?.properties?.id
-          if (id !== undefined) latest.current.onStopClick?.(String(id))
+          if (id === undefined || !map) return
+          latest.current.onStopClick?.(String(id))
+          showPopup(map, String(id))
         })
         fit(map, p.stops)
         mapRef.current = map
@@ -122,6 +135,7 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
+    popup.current?.remove()
     source(map, 'route')?.setData(routeData(shape, stops))
     source(map, 'stops')?.setData(stopsData(stops, latest.current.highlightStopId))
     fit(map, stops)
@@ -131,6 +145,14 @@ export function MapView({ shape, stops, color, user, highlightStopId, follow, on
     const map = mapRef.current
     if (map) source(map, 'stops')?.setData(stopsData(latest.current.stops, highlightStopId))
   }, [highlightStopId])
+
+  useEffect(() => {
+    const map = mapRef.current
+    const stop = focus && stops.find((s) => s.id === focus.stopId)
+    if (!map || !focus || !stop) return
+    map.easeTo({ center: [stop.lng, stop.lat], zoom: Math.max(map.getZoom(), 15) })
+    showPopup(map, stop.id)
+  }, [focus])
 
   useEffect(() => {
     const map = mapRef.current
