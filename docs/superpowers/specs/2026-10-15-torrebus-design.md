@@ -49,7 +49,6 @@ Základ: `https://torrevieja.avanzagrupo.com/index.php?option=com_avanzainfo&tas
 | `display.apiLineDetail` | `lineId`, `iv` (`I`/`V`) | `geojson` FeatureCollection – `MultiLineString` trasy (+ případně `Point` zastávek) |
 | `display.apiSchedulesCabecera` | `lineId`, `iv`, `date` (`YYYYMMDD`) | odjezdy z výchozích zastávek (`hora`, `desde`, `hasta`, `trayecto`) |
 | `display.apiSchedules` | `lineId`, `iv`, `date` | časy na všech zastávkách, `paradas.P_<kód>` |
-| `display.apiStopDetail` | `stopId` | detail zastávky, souřadnice, `lines` |
 
 Seznam linek (id, název, barva) se parsuje z HTML stránky `/lineas`. Když pro datum nejsou jízdní řády, API vrací `{"error": {...}}`.
 
@@ -59,10 +58,21 @@ Seznam linek (id, název, barva) se parsuje z HTML stránky `/lineas`. Když pro
 |---|---|---|
 | `GET /api/lines` | HTML `/lineas` | 24 h |
 | `GET /api/lines/:id/:dir` | `apiTrayectos` + `apiLineDetail` | 24 h |
-| `GET /api/lines/:id/:dir/schedule?date=YYYYMMDD` | `apiSchedules` | do půlnoci (Europe/Madrid) |
-| `GET /api/stops/:id` | `apiStopDetail` | 24 h |
+| `GET /api/lines/:id/:dir/schedule?date=YYYYMMDD` | `apiSchedules` | 24 h (klíč obsahuje datum) |
+| `GET /api/stops` | index všech zastávek složený z `apiTrayectos` všech linek a směrů (zastávka → které linky/směry ji obsluhují) | 24 h |
 
-`:dir` je `I` nebo `V`. Odpovědi jsou v našem normalizovaném formátu (čísla místo stringů u souřadnic, jednotné názvy polí). Když upstream selže a v cache je starší odpověď, vrátí se ta s hlavičkou/příznakem `stale`. Když nejsou jízdní řády na dané datum, vrátí se prázdný seznam (ne chyba).
+`:dir` je `I` nebo `V`. Detail zastávky a „Poblíž“ se počítají na klientovi z `/api/stops` + jízdních řádů linek.
+
+### Poznatky o datech
+
+- Linka může mít ve směru víc variant trasy (`trayectos`, např. 071 má 5). Detail linky má výběr varianty, výchozí je první.
+- Okružní linky (071 „C“) mají jen směr `I`; směr `V` vrací prázdné `trayectos` → přepínač směru se skryje.
+- `apiSchedules` pro `iv=I` vrací časy i pro zastávky opačného směru. Časy zastávky pro variantu = položky `paradas.P_<zastávka>`, kde `hasta` == poslední zastávka varianty.
+- Časy na zastávkách nejsou propojené ID spoje. Spoj se skládá řetězením: čas na další zastávce = první čas ≥ čas na předchozí zastávce.
+- Na konečné zastávce varianty (`desde == hasta`) API neuvádí čas příjezdu, ale čas odjezdu spoje z výchozí zastávky. Čas příjezdu na konečnou se proto odhaduje z předchozí zastávky a vzdálenosti (15 km/h vzdušnou čarou, min. 1 min). Výjimka: okružní linka, kde konečná == výchozí – tam jsou to platné odjezdy.
+- Pro minulé dny i dny bez provozu vrací `apiSchedules` `{"cabecera":[],"paradas":[]}`.
+- Názvy zastávek mají příponu ` _TRV` – odstraňuje se.
+- Všechny linky mají v HTML barvu `#FF0000`, zobrazované číslo je badge (`C`, `01`…`08`, `N1`…`N3`), ID je `071`, `081`…. Odpovědi jsou v našem normalizovaném formátu (čísla místo stringů u souřadnic, jednotné názvy polí). Když upstream selže a v cache je starší odpověď, vrátí se ta s hlavičkou/příznakem `stale`. Když nejsou jízdní řády na dané datum, vrátí se prázdný seznam (ne chyba).
 
 ## Obrazovky
 
@@ -79,7 +89,9 @@ Seznam linek (id, název, barva) se parsuje z HTML stránky `/lineas`. Když pro
    - Mapa sleduje GPS polohu; určí se pozice na trase a poslední projetá zastávka.
    - Zvýrazněné další zastávky s očekávanými časy (z `apiSchedules` podle nejbližšího spoje).
    - Ťuknutím se nastaví cílová zastávka: „ještě N zastávek, ~M min“; jednu zastávku před cílem vibrace + výrazný banner (jen při otevřené obrazovce).
-   - Bez GPS: ruční výběr aktuální zastávky.
+   - Obrazovka se drží rozsvícená (Wake Lock API), aby upozornění fungovalo.
+   - Poloha na trase = nejbližší úsek mezi po sobě jdoucími zastávkami (přímka); dál než 300 m = „mimo trasu“. Hledá se od posledního známého úseku −1 (kvůli okružním linkám).
+   - Bez GPS: ruční výběr aktuální zastávky („Jsem tady“).
 4. **Detail zastávky**
    - Linky, které tu staví, a jejich nejbližší odjezdy.
 
