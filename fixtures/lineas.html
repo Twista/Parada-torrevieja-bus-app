@@ -1,0 +1,743 @@
+
+<!DOCTYPE html>
+<html lang="es-es" dir="ltr">
+	<head>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta charset="utf-8">
+	<meta name="generator" content="Helix Ultimate - The Most Popular Joomla! Template Framework.">
+	<title>Todas las líneas</title>
+	<link href="/images/logos-iconos/favicon.png" rel="icon" type="image/png">
+<link href="/media/vendor/joomla-custom-elements/css/joomla-alert.min.css?0.4.1" rel="stylesheet">
+	<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+	<link href="/media/com_avanzainfo/css/avanzainfo.css" rel="stylesheet">
+	<link href="/templates/shaper_helixultimate/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/plugins/system/helixultimate/assets/css/system-j4.min.css" rel="stylesheet">
+	<link href="/media/system/css/joomla-fontawesome.min.css?dcdd1b" rel="stylesheet">
+	<link href="/templates/shaper_helixultimate/css/template.css" rel="stylesheet">
+	<link href="/templates/shaper_helixultimate/css/presets/preset2.css" rel="stylesheet">
+	<link href="/templates/shaper_helixultimate/css/custom.css?v=1779180737" rel="stylesheet">
+	<style>.sp-megamenu-parent > li > a, .sp-megamenu-parent > li > span, .sp-megamenu-parent .sp-dropdown li.sp-menu-item > a{font-family: 'Arial', sans-serif;text-decoration: none;}
+</style>
+	<style>.menu.nav-pills > li > a, .menu.nav-pills > li > span, .menu.nav-pills .sp-dropdown li.sp-menu-item > a{font-family: 'Arial', sans-serif;text-decoration: none;}
+</style>
+	<style>.logo-image {height:36px;}.logo-image-phone {height:36px;}</style>
+	<style>@media(max-width: 992px) {.logo-image {height: 36px;}.logo-image-phone {height: 36px;}}</style>
+	<style>@media(max-width: 576px) {.logo-image {height: 36px;}.logo-image-phone {height: 36px;}}</style>
+	<style>:root {--sppb-topbar-bg-color: #333333; --sppb-topbar-text-color: #AAAAAA; --sppb-header-bg-color: #FFFFFF; --sppb-logo-text-color: #ec430f; --sppb-menu-text-color: #252525; --sppb-menu-text-hover-color: #ec430f; --sppb-menu-text-active-color: #ec430f; --sppb-menu-dropdown-bg-color: #FFFFFF; --sppb-menu-dropdown-text-color: #252525; --sppb-menu-dropdown-text-hover-color: #ec430f; --sppb-menu-dropdown-text-active-color: #ec430f; --sppb-text-color: #252525; --sppb-bg-color: #FFFFFF; --sppb-link-color: #ec430f; --sppb-link-hover-color: #044CD0; --sppb-footer-bg-color: #171717; --sppb-footer-text-color: #FFFFFF; --sppb-footer-link-color: #A2A2A2; --sppb-footer-link-hover-color: #FFFFFF}</style>
+<script src="/media/vendor/jquery/js/jquery.min.js?3.7.1"></script>
+	<script src="/media/legacy/js/jquery-noconflict.min.js?504da4"></script>
+	<script src="/media/mod_menu/js/menu.min.js?dcdd1b" type="module"></script>
+	<script type="application/json" class="joomla-script-options new">{"data":{"breakpoints":{"tablet":991,"mobile":480},"header":{"stickyOffset":"100"}},"joomla.jtext":{"ERROR":"Error","MESSAGE":"Mensaje","NOTICE":"Notificación","WARNING":"Advertencia","JCLOSE":"Cerrar","JOK":"OK","JOPEN":"Abrir"},"system.paths":{"root":"","rootFull":"https:\/\/torrevieja.avanzagrupo.com\/","base":"","baseFull":"https:\/\/torrevieja.avanzagrupo.com\/"},"csrf.token":"d36820974dfea5b7ac2a374f15fd4610"}</script>
+	<script src="/media/system/js/core.min.js?a3d8f8"></script>
+	<script src="/media/vendor/bootstrap/js/alert.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/button.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/carousel.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/collapse.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/dropdown.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/modal.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/offcanvas.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/popover.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/scrollspy.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/tab.min.js?5.3.8" type="module"></script>
+	<script src="/media/vendor/bootstrap/js/toast.min.js?5.3.8" type="module"></script>
+	<script src="/media/system/js/showon.min.js?e51227" type="module"></script>
+	<script src="/media/system/js/messages.min.js?9a4811" type="module"></script>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+	<script src="/media/com_avanzainfo/js/avanzainfo.js"></script>
+	<script src="/media/com_avanzainfo/js/avanzainfo-lineas.js"></script>
+	<script src="/templates/shaper_helixultimate/js/inert.min.js"></script>
+	<script src="/templates/shaper_helixultimate/js/main.js"></script>
+	<script src="/templates/shaper_helixultimate/js/custom.js"></script>
+	<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","@id":"https://torrevieja.avanzagrupo.com/#/schema/BreadcrumbList/17","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://torrevieja.avanzagrupo.com/","name":"Inicio"}},{"@type":"ListItem","position":2,"item":{"@id":"https://torrevieja.avanzagrupo.com/lineas","name":"Todas las líneas"}}]}</script>
+	<script>template="shaper_helixultimate";</script>
+	<script>
+				document.addEventListener("DOMContentLoaded", () =>{
+					window.htmlAddContent = window?.htmlAddContent || "";
+					if (window.htmlAddContent) {
+        				document.body.insertAdjacentHTML("beforeend", window.htmlAddContent);
+					}
+				});
+			</script>
+	<script>(function () {
+	try {
+		var SPPB_TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+		if (!SPPB_TIME_ZONE){
+			return;
+		}
+
+		document.cookie =
+			'sppb_user_timezone=' + encodeURIComponent(SPPB_TIME_ZONE) +
+			'; path=/' +
+			'; max-age=43200'; // 12 hours
+	} catch (e) {}
+})();</script>
+	<script>
+			const initColorMode = () => {
+				const colorVariableData = [];
+				const sppbColorVariablePrefix = "--sppb";
+				let activeColorMode = localStorage.getItem("sppbActiveColorMode") || "";
+				activeColorMode = "";
+				const modes = [];
+
+				if(!modes?.includes(activeColorMode)) {
+					activeColorMode = "";
+					localStorage.setItem("sppbActiveColorMode", activeColorMode);
+				}
+
+				document?.body?.setAttribute("data-sppb-color-mode", activeColorMode);
+
+				if (!localStorage.getItem("sppbActiveColorMode")) {
+					localStorage.setItem("sppbActiveColorMode", activeColorMode);
+				}
+
+				if (window.sppbColorVariables) {
+					const colorVariables = typeof(window.sppbColorVariables) === "string" ? JSON.parse(window.sppbColorVariables) : window.sppbColorVariables;
+
+					for (const colorVariable of colorVariables) {
+						const { path, value } = colorVariable;
+						const variable = String(path[0]).trim().toLowerCase().replaceAll(" ", "-");
+						const mode = path[1];
+						const variableName = `${sppbColorVariablePrefix}-${variable}`;
+
+						if (activeColorMode === mode) {
+							colorVariableData.push(`${variableName}: ${value}`);
+						}
+					}
+
+					document.documentElement.style.cssText += colorVariableData.join(";");
+				}
+			};
+
+			window.sppbColorVariables = [];
+			
+			initColorMode();
+
+			document.addEventListener("DOMContentLoaded", initColorMode);
+		</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NWV8RQ6R');</script>
+<!-- End Google Tag Manager -->
+			<script>var __uzdbm_1 = "d5b87f29-aefb-4a34-a9ae-776eb9af3433";var __uzdbm_2 = "NzIyMDYwYTMtZTB6cS00YTM2LWJhM2QtOGYyNTA4MjcyMDRlJDE1MS4yMzcuNTYuMjM=";var __uzdbm_3 = "";var __uzdbm_4 = "false";var __uzdbm_5 = "";var __uzdbm_6 = "";var __uzdbm_7 = "";</script> <script>
+    (function (w, d, e, u, c, g, a, b) {
+      w["SSJSConnectorObj"] = w["SSJSConnectorObj"] || {
+        ss_cid: c,
+        domain_info: "auto",
+      };
+      w[g] = function (i, j) {
+        w["SSJSConnectorObj"][i] = j;
+      };
+      a = d.createElement(e);
+      a.async = true;
+      if (
+        navigator.userAgent.indexOf('MSIE') !== -1 ||
+        navigator.appVersion.indexOf('Trident/') > -1
+      ) {
+        u = u.replace("/advanced/", "/advanced/ie/");
+      }
+      a.src = u;
+      b = d.getElementsByTagName(e)[0];
+      b.parentNode.insertBefore(a, b);
+    })(
+      window, document, "script", "/18f5227b-e27b-445a-a53f-f845fbe69b40/stormcaster.js", "e0zs", "ssConf"
+    );
+    ssConf("c1", "https://torrevieja.avanzagrupo.com");
+    ssConf("c3", "c99a4269-161c-4242-a3f0-28d44fa6ce24");
+    ssConf("au", "torrevieja.avanzagrupo.com");
+    ssConf("cu", "validate.perfdrive.com, ssc");
+  </script></head>
+	<body class="site helix-ultimate hu com_avanzainfo com-avanzainfo view-lineas layout-default task-none itemid-269 es-es ltr sticky-header layout-fluid offcanvas-init offcanvs-position-right">
+
+					<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWV8RQ6R"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+		
+		
+		<div class="body-wrapper">
+			<div class="body-innerwrapper">
+				
+	<div class="sticky-header-placeholder"></div>
+
+<div id="sp-top-bar">
+	<div class="container">
+		<div class="container-inner">
+			<div class="row">
+				<div id="sp-top1" class="col-lg-6">
+					<div class="sp-column text-center text-lg-start">
+																			
+												<div class="sp-module "><div class="sp-module-content">
+<div id="mod-custom114" class="mod-custom custom">
+    <div class="holalink"><a href="https://hola-torrevieja.avanzagrupo.com/hc/es-es/p/Inicio" target="_blank" rel="noopener"><img class="imghola" src="/images/logos-iconos/icontxt.svg" /><span class="txhola">Atención a clientes HOLA</span></a></div></div>
+</div></div>
+					</div>
+				</div>
+
+				<div id="sp-top2" class="col-lg-6">
+					<div class="sp-column text-center text-lg-end">
+						
+																									
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<header id="sp-header">
+	<div class="container">
+		<div class="container-inner">
+			<div class="row align-items-center">
+
+				<!-- Left toggler if left/offcanvas -->
+				
+				<!-- Logo -->
+				<div id="sp-logo" class="col-auto">
+					<div class="sp-column">
+						<div class="logo"><a href="/">
+				<img class='logo-image '
+					srcset='https://torrevieja.avanzagrupo.com/images/logos-iconos/avanza-mobility.svg 1x'
+					src='https://torrevieja.avanzagrupo.com/images/logos-iconos/avanza-mobility.svg'
+					height='36'
+					alt='Urbano de Torrevieja'
+				/>
+				</a></div>						
+					</div>
+				</div>
+
+				<!-- Menu -->
+				<div id="sp-menu" class="col-auto flex-auto">
+					<div class="sp-column d-flex justify-content-end align-items-center">
+						<nav class="sp-megamenu-wrapper d-flex" role="navigation" aria-label="Main Navigation"><ul class="sp-megamenu-parent menu-animation-fade-up d-none d-lg-block"><li class="sp-menu-item"><a  class="hide-home" href="/"  >Inicio</a></li><li class="sp-menu-item current-item active"><a aria-current="page"  href="/lineas"  >Todas las líneas</a></li><li class="sp-menu-item"><a   href="/tarifas-y-titulos"  >Tarifas y títulos</a></li><li class="sp-menu-item"><a   href="/nuevos-servicios"  >Nuevos servicios</a></li><li class="sp-menu-item"><a  rel="noopener noreferrer" href="https://hola-torrevieja.avanzagrupo.com/hc/es-es/p/Inicio" target="_blank"  >At. cliente</a></li></ul></nav>						
+
+						<!-- Related Modules -->
+						<div class="d-none d-lg-flex header-modules align-items-center">
+							
+													</div>
+
+						<!-- Right toggler  -->
+													
+  <a id="offcanvas-toggler"
+     class="offcanvas-toggler-secondary offcanvas-toggler-right d-flex d-lg-none align-items-center"
+     href="#"
+     aria-label="Menu"
+     title="Menu">
+     <div class="burger-icon" aria-hidden="true"><span></span><span></span><span></span></div>
+  </a>											</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+				<main id="sp-main">
+					
+<section id="sp-section-1" >
+
+				
+	
+<div class="row">
+	<div id="sp-title" class="col-lg-12 "><div class="sp-column "><div class="sp-module container-breadcrumbs"><div class="sp-module-content"><nav class="mod-breadcrumbs__wrapper" aria-label="Breadcrumbs">
+    <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
+                    <li class="mod-breadcrumbs__here float-start">
+                Está aquí: &#160;
+            </li>
+        
+        <li class="mod-breadcrumbs__item breadcrumb-item"><a href="/" class="pathway"><span>Inicio</span></a></li><li class="mod-breadcrumbs__item breadcrumb-item active"><span>Todas las líneas</span></li>    </ol>
+    </nav>
+</div></div></div></div></div>
+				
+	</section>
+
+<section id="sp-main-body" >
+
+										<div class="container">
+					<div class="container-inner">
+						
+	
+<div class="row">
+	
+<div id="sp-component" class="col-lg-12 ">
+	<div class="sp-column ">
+		<div id="system-message-container" aria-live="polite"></div>
+
+
+		
+		<div class="avanzainfo-lineas">
+    <div class="avanzainfo-lineas-layout" style="--avanzainfo-map-height: 600px">
+        <div class="avanzainfo-lineas-list">
+            <div class="avanzainfo-lineas-header">
+                <h2>Todas las líneas</h2>
+                <label class="avanzainfo-select-all-label">
+                    <input type="checkbox" id="avanzainfo-select-all" />
+                    Seleccionar todas                </label>
+            </div>
+                            <div class="avanzainfo-lines-container">
+                                        <div class="avanzainfo-line-item" data-line-id="071">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="071"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    C                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - E. Autobuses - Polideportivo - C.Salud Acequión</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="071" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/071"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-071" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="081">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="081"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    01                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Hospital - Los Altos - Punta Prima - Rocío del mar</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="081" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/081"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-081" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="082">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="082"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    02                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Hospital -  Los Balcones - Lago Jardín</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="082" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/082"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-082" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="083">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="083"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    03                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Deisderio Rodríguez - Mar Azul - Hospital</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="083" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/083"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-083" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="084">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="084"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    04                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - C.Comerciales - La Torreta - C.Salud La Siesta</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="084" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/084"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-084" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="085">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="085"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    05                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - C.Comerciales - C.Salud La Siesta - San Luis</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="085" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/085"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-085" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="086">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="086"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    06                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Polideportivo - H. Quirón - C. Salud La Mata</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="086" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/086"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-086" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="087">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="087"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    07                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Ramón Gallud - Av. París - La Mata</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="087" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/087"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-087" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="088">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="088"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    08                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Cabo Cervera - E. Autobuses - La Mata</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="088" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/088"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-088" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="091">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="091"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    N1                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Playa Los Locos - Polideportivo - La Mata</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="091" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/091"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-091" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="092">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="092"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    N2                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - C. Comerciales - La Torreta - San Luis</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="092" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/092"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-092" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                        <div class="avanzainfo-line-item" data-line-id="093">
+                        <div class="avanzainfo-line-row">
+                            <label class="avanzainfo-line-toggle-label">
+                                <input type="checkbox" class="avanzainfo-line-toggle"
+                                       data-line-id="093"
+                                       data-line-color="#FF0000" />
+                                <span class="avanzainfo-line-badge" style="background-color: #FF0000">
+                                    N3                                </span>
+                            </label>
+                            <div class="avanzainfo-line-info">
+                                <span class="avanzainfo-line-name">Gregorio Marañón - Desiderio Rodriguez - Los Balcones - Los Altos</span>
+                                <button class="avanzainfo-line-stops-btn" data-line-id="093" aria-expanded="false">
+                                    <span class="avanzainfo-stops-btn-text">Ver paradas</span>
+                                    <i class="fa fa-angle-down avanzainfo-stops-btn-icon"></i>
+                                </button>
+                            </div>
+                            <a href="/lineas/linea/093"
+                               class="avanzainfo-line-detail-link">
+                                Ver detalle                                <span class="avanzainfo-detail-icon">&#10132;</span>
+                            </a>
+                        </div>
+                        <div class="avanzainfo-line-stops-panel" id="avanzainfo-stops-093" hidden>
+                            <div class="avanzainfo-line-stops-content">
+                                <p class="avanzainfo-loading">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                                    </div>
+                    </div>
+        <div class="avanzainfo-lineas-map">
+            <div id="avanzainfo-map-lineas" class="avanzainfo-map"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    AvanzaInfo.init({"apiBaseUrl":"https:\/\/apisvt.avanzagrupo.com\/lineas\/","companyCode":"63","etasEnabled":false,"menuBase":"\/lineas","defaultSelection":"all","mapLat":37.9786,"mapLng":-0.6821,"urbanLineIds":["C","01","02","03","04","05","06","07","08","N1","N2","N3"],"externalLines":"show"});
+    AvanzaInfoLineas.init([{"id":"071","idsae":"C","idweb":"C","name":"Gregorio Mara\u00f1\u00f3n - E. Autobuses - Polideportivo - C.Salud Acequi\u00f3n","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"081","idsae":"01","idweb":"01","name":"Hospital - Los Altos - Punta Prima - Roc\u00edo del mar","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"082","idsae":"02","idweb":"02","name":"Hospital -  Los Balcones - Lago Jard\u00edn","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"083","idsae":"03","idweb":"03","name":"Gregorio Mara\u00f1\u00f3n - Deisderio Rodr\u00edguez - Mar Azul - Hospital","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"084","idsae":"04","idweb":"04","name":"Gregorio Mara\u00f1\u00f3n - C.Comerciales - La Torreta - C.Salud La Siesta","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"085","idsae":"05","idweb":"05","name":"Gregorio Mara\u00f1\u00f3n - C.Comerciales - C.Salud La Siesta - San Luis","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"086","idsae":"06","idweb":"06","name":"Gregorio Mara\u00f1\u00f3n - Polideportivo - H. Quir\u00f3n - C. Salud La Mata","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"087","idsae":"07","idweb":"07","name":"Gregorio Mara\u00f1\u00f3n - Ram\u00f3n Gallud - Av. Par\u00eds - La Mata","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"088","idsae":"08","idweb":"08","name":"Gregorio Mara\u00f1\u00f3n - Cabo Cervera - E. Autobuses - La Mata","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"091","idsae":"N1","idweb":"N1","name":"Gregorio Mara\u00f1\u00f3n - Playa Los Locos - Polideportivo - La Mata","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"092","idsae":"N2","idweb":"N2","name":"Gregorio Mara\u00f1\u00f3n - C. Comerciales - La Torreta - San Luis","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"},{"id":"093","idsae":"N3","idweb":"N3","name":"Gregorio Mara\u00f1\u00f3n - Desiderio Rodriguez - Los Balcones - Los Altos","empresa":"63","dsempresa":"Urbanos Torrevieja","grupo":"","color":"#FF0000"}]);
+});
+</script>
+
+
+			</div>
+</div>
+</div>
+											</div>
+				</div>
+						
+	</section>
+
+<section id="sp-bottom" >
+
+						<div class="container">
+				<div class="container-inner">
+			
+	
+<div class="row">
+	<div id="sp-bottom1" class="col-sm-col-sm-6 col-lg-3 "><div class="sp-column "><div class="sp-module "><div class="sp-module-content">
+<div id="mod-custom115" class="mod-custom custom">
+    <p><img src="/images/logos-iconos/avanza-mobility-bco.svg" alt="" width="800" height="148" loading="lazy" data-path="local-images:/images/logos-iconos/avanza-mobility-bco.svg"></p></div>
+</div></div></div></div><div id="sp-bottom2" class="col-sm-col-sm-6 col-lg-3 "><div class="sp-column "><div class="sp-module "><h3 class="sp-module-title">Avanza</h3><div class="sp-module-content"><ul class="mod-menu mod-list menu">
+<li class="item-109 active"><a href="https://avanzagrupo.com/quienes-somos/" target="_blank" rel="noopener noreferrer">Sobre Avanza</a></li><li class="item-110"><a href="https://avanzagrupo.com/nuestro-compromiso/" target="_blank" rel="noopener noreferrer">Nuestro compromiso</a></li><li class="item-111"><a href="https://avanzagrupo.com/nuestro-equipo/" target="_blank" rel="noopener noreferrer">Nuestro equipo</a></li><li class="item-112"><a href="https://avanzagrupo.com/avanza-en-cifras/" target="_blank" rel="noopener noreferrer">Avanza en cifras</a></li></ul>
+</div></div></div></div><div id="sp-bottom3" class="col-lg-3 "><div class="sp-column "><div class="sp-module "><h3 class="sp-module-title">Urbano de Torrevieja</h3><div class="sp-module-content"><ul class="mod-menu mod-list menu">
+<li class="item-117 default"><a href="/" class="hide-home">Inicio</a></li><li class="item-269 current active"><a href="/lineas" aria-current="page">Todas las líneas</a></li><li class="item-336"><a href="/tarifas-y-titulos" >Tarifas y títulos</a></li><li class="item-340"><a href="/nuevos-servicios" >Nuevos servicios</a></li><li class="item-337"><a href="https://hola-torrevieja.avanzagrupo.com/hc/es-es/p/Inicio" target="_blank" rel="noopener noreferrer">At. cliente</a></li></ul>
+</div></div></div></div><div id="sp-bottom4" class="col-lg-3 "><div class="sp-column "><div class="sp-module "><h3 class="sp-module-title">Contacto</h3><div class="sp-module-content">
+<div id="mod-custom118" class="mod-custom custom">
+    <article class="footer-contacto">
+<table style="border-collapse: collapse; border-spacing: 0; width: 100%; color: #ffffff;">
+<tbody>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"><img style="width: 20px; height: 20px; display: block;" src="/images/logos-iconos/ico-footer-email-bco.png" alt="" /></td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="mailto:info.torrevieja@avanzagrupo.com"> info.torrevieja@avanzagrupo.com </a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"><img style="width: 20px; height: 20px; display: block;" src="/images/logos-iconos/ico-footer-telf-bco.png" alt="" /></td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="tel:900859773"> 900 859 773 </a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"> </td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="tel:+34965710449"> +34 96 571 04 49 </a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"><img style="width: 20px; height: 20px; display: block;" src="/images/logos-iconos/ico-footer-dir-bco.png" alt="" /></td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="https://maps.app.goo.gl/yorXpesgYXkPX49x8" target="_blank" rel="noopener"> C/ Mayor, 32 (La Mata)</a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"> </td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="https://maps.app.goo.gl/Y9QaZRsdGzJRxsg99" target="_blank" rel="noopener"> C/ Patricio Pérez, 17 (Torrevieja)</a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 16px 0; vertical-align: middle;"> </td>
+<td style="padding: 0 0 16px 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="https://maps.app.goo.gl/6doDuwMRZsPSCw9c7" target="_blank" rel="noopener"> C/ del Mar, 40 </a></td>
+</tr>
+<tr>
+<td style="width: 34px; padding: 0 10px 0 0; vertical-align: middle;"> </td>
+<td style="padding: 0; vertical-align: middle;"><a style="color: #ffffff; text-decoration: none; font-size: 16px; line-height: 1.4; white-space: nowrap;" href="https://maps.app.goo.gl/uD55HnsJEeAgWF9C7" target="_blank" rel="noopener"> Avda. Delfina Viudes, 14</a></td>
+</tr>
+</tbody>
+</table>
+</article></div>
+</div></div></div></div></div>
+							</div>
+			</div>
+			
+	</section>
+
+<footer id="sp-footer" >
+
+						<div class="container">
+				<div class="container-inner">
+			
+	
+<div class="row">
+	<div id="sp-footer1" class="col-lg-6 "><div class="sp-column "></div></div><div id="sp-footer2" class="col-lg-6 "><div class="sp-column "><div class="sp-module "><div class="sp-module-content"><ul class="mod-menu mod-list menu">
+<li class="item-235"><a href="/aviso-legal" >Aviso Legal</a></li><li class="item-231"><a href="/politica-de-cookies" >Política de Cookies</a></li><li class="item-234"><a href="/politica-de-privacidad" >Política de Privacidad</a></li><li class="item-115"><a href="https://avanzagrupo.com/calidad/" target="_blank" rel="noopener noreferrer">Política de Calidad</a></li><li class="item-114"><a href="https://whistleblowersoftware.com/secure/995617f6-7cd7-4f4d-a60e-80f575cc11b1" target="_blank" rel="noopener noreferrer">Canal Ético</a></li></ul>
+</div></div></div></div></div>
+							</div>
+			</div>
+			
+	</footer>
+				</main>
+			</div>
+		</div>
+
+		<!-- Off Canvas Menu -->
+		<div class="offcanvas-overlay"></div>
+		<!-- Rendering the offcanvas style -->
+		<!-- If canvas style selected then render the style -->
+		<!-- otherwise (for old templates) attach the offcanvas module position -->
+					<div class="offcanvas-menu left-1 offcanvas-arrow-right" tabindex="-1" inert>
+	<div class="d-flex align-items-center justify-content-between p-3 pt-4">
+				<a href="#" class="close-offcanvas" role="button" aria-label="Close Off-canvas">
+			<div class="burger-icon" aria-hidden="true">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</a>
+	</div>
+	
+	<div class="offcanvas-inner">
+		<div class="d-flex header-modules mb-3">
+			
+					</div>
+		
+					<div class="sp-module "><div class="sp-module-content"><ul class="mod-menu mod-list menu nav-pills">
+<li class="item-117 default"><a href="/" class="hide-home">Inicio</a></li><li class="item-269 current active"><a href="/lineas" aria-current="page">Todas las líneas</a></li><li class="item-336"><a href="/tarifas-y-titulos" >Tarifas y títulos</a></li><li class="item-340"><a href="/nuevos-servicios" >Nuevos servicios</a></li><li class="item-337"><a href="https://hola-torrevieja.avanzagrupo.com/hc/es-es/p/Inicio" target="_blank" rel="noopener noreferrer">At. cliente</a></li></ul>
+</div></div>		
+		
+		
+		
+					
+				
+		<!-- custom module position -->
+		
+	</div>
+</div>		
+
+		<script type="text/javascript" charset="UTF-8" src="//cdn.cookie-script.com/s/a5a19958612aab2d454bbac91de626d8.js"></script>
+
+		
+
+		<!-- Go to top -->
+					<a href="#" class="sp-scroll-up" aria-label="Scroll to top"><span class="fas fa-angle-up" aria-hidden="true"></span></a>
+					</body>
+</html>
