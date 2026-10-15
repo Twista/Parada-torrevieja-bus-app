@@ -47,16 +47,20 @@ export function LinePage() {
     setStopIndex(0)
   }
 
-  function selectStop(index: number, target: 'map' | 'departures') {
+  function showOnMap(index: number) {
     setStopIndex(index)
-    if (target === 'map' && variant) setFocus({ stopId: variant.stops[index].id })
-    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    if (variant) setFocus({ stopId: variant.stops[index].id })
+    document.getElementById('map')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function nextTimes(index: number): string[] {
+    return sched && variant ? upcoming(stopTimes(sched, variant, index), now, 3).map(formatMinutes) : []
   }
 
   function popupText(stopId: string): string {
     const index = variant ? variant.stops.findIndex((s) => s.id === stopId) : -1
     if (!variant || index < 0) return ''
-    const next = sched ? upcoming(stopTimes(sched, variant, index), now, 3).map(formatMinutes) : []
+    const next = nextTimes(index)
     return next.length ? `${variant.stops[index].name}\n${next.join('  ')}` : variant.stops[index].name
   }
 
@@ -134,10 +138,23 @@ export function LinePage() {
             <ol class="stops">
               {variant.stops.map((s, i) => (
                 <li key={`${s.id}-${i}`} class={stopIndex === i ? 'dest' : ''}>
-                  <button class="stop-name" onClick={() => selectStop(i, 'departures')}>{s.name}</button>
-                  <button class="small" aria-label="Ukázat na mapě" onClick={() => selectStop(i, 'map')}>📍</button>
+                  <button class="stop-name" onClick={() => setStopIndex(i)}>{s.name}</button>
+                  <button class="small" aria-label="Ukázat na mapě" onClick={() => showOnMap(i)}>📍</button>
                   {stopIndex === i && (
-                    <a class="stop-times" href={`/zastavka/${s.id}`}>Všechny linky na zastávce ›</a>
+                    <div class="stop-times">
+                      {i === variant.stops.length - 1 && i > 0 ? (
+                        <span class="muted">Konečná zastávka</span>
+                      ) : nextTimes(i).length ? (
+                        <div class="times">
+                          {nextTimes(i).map((t) => (
+                            <span key={t}>{t}</span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span class="muted">Dnes už odsud nic nejede.</span>
+                      )}
+                      <a href={`/zastavka/${s.id}`}>Všechny linky na zastávce ›</a>
+                    </div>
                   )}
                 </li>
               ))}
