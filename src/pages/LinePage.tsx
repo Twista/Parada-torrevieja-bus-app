@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { useRoute } from 'preact-iso'
 import type { Dir } from '../../shared/types'
 import { api, findNextServiceDate } from '../api'
@@ -21,6 +21,10 @@ export function LinePage() {
   const lines = useAsync(api.lines, [])
   const directions = useAsync(() => Promise.all([api.direction(lineId, 'I'), api.direction(lineId, 'V')]), [lineId])
   const schedule = useAsync(() => api.schedule(lineId, dir, date), [lineId, dir, date])
+
+  useEffect(() => {
+    api.schedule(lineId, dir, addDays(today, 1)).catch(() => {})
+  }, [lineId, dir, today])
 
   const line = lines.data?.data.find((l) => l.id === lineId)
   const both = directions.data

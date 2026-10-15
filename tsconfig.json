@@ -9,7 +9,7 @@
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "types": ["vite/client", "geojson"]
+    "types": ["vite/client", "geojson", "vite-plugin-pwa/client"]
   },
   "include": ["src", "shared"],
   "exclude": ["**/*.test.ts"]
