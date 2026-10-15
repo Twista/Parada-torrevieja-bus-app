@@ -9,6 +9,21 @@
   color: var(--text);
   background: var(--bg);
   -webkit-text-size-adjust: 100%;
+  color-scheme: light dark;
+  --notice-bg: #fff4e5;
+  --notice-text: #7a4b00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #ececf1;
+    --muted: #9c9ca8;
+    --line: #2d2d35;
+    --bg: #111114;
+    --soft: #1e1e24;
+    --notice-bg: #3a2a10;
+    --notice-text: #ffd59a;
+  }
 }
 
 * {
@@ -83,8 +98,8 @@ input {
 .notice {
   padding: 10px 12px;
   border-radius: 10px;
-  background: #fff4e5;
-  color: #7a4b00;
+  background: var(--notice-bg);
+  color: var(--notice-text);
 }
 
 .lines {
@@ -323,4 +338,46 @@ select {
   display: grid;
   gap: 4px;
   margin: 12px 0;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.install summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.install h3 {
+  font-size: 0.95rem;
+  margin: 14px 0 4px;
+}
+
+.install ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.maplibregl-popup-content {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: var(--bg);
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: var(--bg);
 }

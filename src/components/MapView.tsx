@@ -24,11 +24,12 @@ type StyleSpecification = Exclude<MapOptions['style'], string | undefined>
 
 const NO_ROUTE: [number, number][][] = []
 
-const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty'
+const DARK = window.matchMedia('(prefers-color-scheme: dark)').matches
+const STYLE_URL = `https://tiles.openfreemap.org/styles/${DARK ? 'dark' : 'liberty'}`
 const BLANK: StyleSpecification = {
   version: 8,
   sources: {},
-  layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#eef0f2' } }],
+  layers: [{ id: 'bg', type: 'background', paint: { 'background-color': DARK ? '#1d1d22' : '#eef0f2' } }],
 }
 
 async function loadStyle(): Promise<StyleSpecification | string> {

@@ -22,8 +22,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Torrebus',
-        short_name: 'Torrebus',
+        name: 'Parada – autobusy Torrevieja',
+        short_name: 'Parada',
         lang: 'cs',
         start_url: '/',
         display: 'standalone',
