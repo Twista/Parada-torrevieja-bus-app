@@ -1,5 +1,6 @@
 import { api } from '../api'
 import { LineBadge } from '../components/LineBadge'
+import { Nearby } from '../components/Nearby'
 import { Status } from '../components/Status'
 import { useAsync } from '../lib/useAsync'
 
@@ -10,6 +11,7 @@ export function Home() {
       <header class="bar">
         <h1>Torrebus</h1>
       </header>
+      <Nearby />
       <Status loading={lines.loading} error={lines.error} stale={lines.data?.stale} fetchedAt={lines.data?.fetchedAt} />
       <ul class="lines">
         {lines.data?.data.map((l) => (
