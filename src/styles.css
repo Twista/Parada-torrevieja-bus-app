@@ -318,3 +318,9 @@ select {
   text-align: center;
   font-size: 0.8rem;
 }
+
+.field {
+  display: grid;
+  gap: 4px;
+  margin: 12px 0;
+}

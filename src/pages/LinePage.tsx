@@ -11,6 +11,7 @@ import { lineColor } from '../lib/lineColor'
 import { useAsync } from '../lib/useAsync'
 import { useGeolocation } from '../lib/useGeolocation'
 import { useNow } from '../lib/useNow'
+import { variantLabel, variantRuns } from '../lib/variants'
 
 export function LinePage() {
   const { params } = useRoute()
@@ -19,7 +20,7 @@ export function LinePage() {
   const { position } = useGeolocation(true)
   const today = clock.date
   const [dir, setDir] = useState<Dir>('I')
-  const [variantIndex, setVariantIndex] = useState(0)
+  const [chosenVariant, setChosenVariant] = useState<number | null>(null)
   const [date, setDate] = useState(today)
   const [stopIndex, setStopIndex] = useState(0)
   const [focus, setFocus] = useState<{ stopId: string } | null>(null)
@@ -36,9 +37,12 @@ export function LinePage() {
   const both = directions.data
   const hasReturn = (both?.[1].data.variants.length ?? 0) > 0
   const direction = both?.[dir === 'I' ? 0 : 1].data
-  const variant = direction?.variants[variantIndex] ?? direction?.variants[0]
   const now = date === today ? clock.minutes : -1
   const sched = schedule.data?.data
+  const variants = direction?.variants ?? []
+  const runs = variants.map((v) => !sched || variantRuns(sched, v, variants))
+  const variantIndex = chosenVariant ?? Math.max(0, runs.indexOf(true))
+  const variant = variants[variantIndex] ?? variants[0]
   const stop = variant?.stops[stopIndex] ?? variant?.stops[0]
   const isTerminal = variant !== undefined && stopIndex > 0 && stopIndex === variant.stops.length - 1
   const departures = sched && variant && stop ? stopTimes(sched, variant, variant.stops.indexOf(stop)) : []
@@ -46,7 +50,7 @@ export function LinePage() {
 
   function switchDir(next: Dir) {
     setDir(next)
-    setVariantIndex(0)
+    setChosenVariant(null)
     setStopIndex(0)
   }
 
@@ -88,18 +92,24 @@ export function LinePage() {
           <button class={dir === 'V' ? 'active' : ''} onClick={() => switchDir('V')}>Zpět</button>
         </div>
       )}
-      {direction && direction.variants.length > 1 && (
-        <select
-          value={variantIndex}
-          onChange={(e) => {
-            setVariantIndex(Number(e.currentTarget.value))
-            setStopIndex(0)
-          }}
-        >
-          {direction.variants.map((v, i) => (
-            <option key={v.id} value={i}>{v.name}</option>
-          ))}
-        </select>
+      {variants.length > 1 && (
+        <label class="field">
+          <span class="muted">Varianta trasy</span>
+          <select
+            value={variantIndex}
+            onChange={(e) => {
+              setChosenVariant(Number(e.currentTarget.value))
+              setStopIndex(0)
+            }}
+          >
+            {variants.map((v, i) => (
+              <option key={v.id} value={i}>
+                {variantLabel(v, variants)}
+                {runs[i] ? '' : ' (tento den nejede)'}
+              </option>
+            ))}
+          </select>
+        </label>
       )}
       {variant && (
         <>
